@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs'
+
 import User from '../models/user.model.js'
 import generateTokenAndSetCookies from '../utils/generateToken.utils.js'
 
@@ -22,23 +23,23 @@ export const signup = async (req, res) => {
     const hasedPassword = await bcrypt.hash(password, salt)
 
     //random placeholder avatar
-    const profilePic = `https://avatar.iran.liara.run/public/${
-      gender === 'male' ? 'boy' : 'girl'
-    }?username=${username}`
+    const boyProfilePic = 'https://avatar.iran.liara.run/public/boy?username=${username}';
+    const girlProfilePic = 'https://avatar.iran.liara.run/public/girl?username=${username}';
+
 
     const newUser = new User({
       fullName,
       username,
       password: hasedPassword,
       gender,
-      profilePic,
+      profilePic:gender==="male"?boyProfilePic:boyProfilePic
     })
 
     if (newUser) {
       //generate JWT token
       generateTokenAndSetCookies(newUser._id, res)
 
-      await newUser.save()
+      await newUser.save();
       res.status(201).json({
         _id: newUser._id,
         fullName: newUser.fullName,
@@ -46,13 +47,14 @@ export const signup = async (req, res) => {
         profilePic: newUser.profilePic,
       })
     } else {
-      res.status(400).json({ error: 'Invalid user data' })
-    }
+     res.status(400).json({ error: 'Invalid user data' })
+   }
   } catch (error) {
     console.log(`Error in signup controller`, error.message)
     res.status(500).json({ error: 'Internal Server Error' })
   }
-}
+};
+
 
 export const login = async (req, res) => {
   try {
@@ -90,3 +92,12 @@ export const logout = (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' })
   }
 }
+
+/*
+export const login=(req,res)=>{
+  console.log("loginUser");
+}
+export const logout=(req,res)=>{
+  console.log("logoutUser");
+}
+*/

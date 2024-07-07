@@ -13,3 +13,4 @@ const generateTokenAndSetCookies = (userId, res) => {
 }
 
 export default generateTokenAndSetCookies
+

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,16 +19,16 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       required: true,
-      enum: ['male', 'female'],
+      enum: ["male", "female"],
     },
     profilePic: {
       type: String,
-      default: '',
-    },
-  },
-  { timestamps: true } //createdAt updatedAt
-)
+      default: "",
+    },}
+  //},
+  //{ timestamps: true } //createdAt updatedAt
+);
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model("User", userSchema);
 
-export default User
+export default User;
